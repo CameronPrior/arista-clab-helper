@@ -35,6 +35,8 @@ def deployment_type_menu():
     print("What type of lab are you deploying?")
     print("1. Single DC - Leaf Spine")
     print("2. Dual DC - Leaf Spine")
+    print("3. Single DC - Leaf Spine with Hosts")
+    print("4. Dual DC - Leaf Spine with Hosts")
     choice = input("Enter your choice: ")
     if choice == "1":
         noSpines = 2
@@ -55,6 +57,26 @@ def deployment_type_menu():
         labDir = "./clab-Arista-DDC-LS-MLAG/"
         deploy_command = "clab deploy -t ./inventory/Arista-DDC-LS-MLAG.yml"
         labName = "Arista-DDC-LS-MLAG"
+        deploy_lab()
+    elif choice == "3":
+        noSpines = 2
+        noLeafs = 4
+        configDir = "./configs/Arista-SDC-LS-MLAG-HOSTS/"
+        if not os.path.exists(configDir):
+            os.makedirs(configDir)
+        labDir = "./clab-Arista-SDC-LS-MLAG-HOSTS/"
+        deploy_command = "clab deploy -t ./inventory/Arista-SDC-LS-MLAG-HOSTS.yml"
+        labName = "Arista-SDC-LS-MLAG-HOSTS"
+        deploy_lab()
+    elif choice == "4":
+        noSpines = 4
+        noLeafs = 12
+        configDir = "./configs/Arista-DDC-LS-MLAG-HOSTS/"
+        if not os.path.exists(configDir):
+            os.makedirs(configDir)
+        labDir = "./clab-Arista-DDC-LS-MLAG-HOSTS/"
+        deploy_command = "clab deploy -t ./inventory/Arista-DDC-LS-MLAG-HOSTS.yml"
+        labName = "Arista-DDC-LS-MLAG-HOSTS"
         deploy_lab()
     else:
         print("Invalid choice. Try again.")
@@ -213,15 +235,18 @@ def confirm_ip_info():
         confirm_ip_info()
 
 
-def select_image():
-    global strippedImage
+def select_ceos_image():
+    global strippedCEOSImage
     os.system("clear")
     dockerClient = docker.from_env()
     dockerImages = dockerClient.images.list()
     imageDicts = []
     for image in dockerImages:
-        imageDict = {"tags": image.tags}
-        imageDicts.append(imageDict)
+        for tag in image.tags:
+            if tag.startswith("ceos"):
+                imageDict = {"tags": [tag]}
+                imageDicts.append(imageDict)
+                break
     jsonStr = json.dumps(imageDicts)
     jsonData = json.loads(jsonStr)
     print("Available CEOS Images:")
@@ -236,7 +261,36 @@ def select_image():
         )
     selectedImage = jsonData[int(choice) - 1]
     imageTags = selectedImage["tags"]
-    strippedImage = ", ".join([tag.strip("[").strip("]") for tag in imageTags])
+    strippedCEOSImage = ", ".join([tag.strip("[").strip("]") for tag in imageTags])
+
+
+def select_host_image():
+    global strippedHostImage
+    os.system("clear")
+    dockerClient = docker.from_env()
+    dockerImages = dockerClient.images.list()
+    imageDicts = []
+    for image in dockerImages:
+        for tag in image.tags:
+            if not tag.startswith("ceos"):
+                imageDict = {"tags": [tag]}
+                imageDicts.append(imageDict)
+                break
+    jsonStr = json.dumps(imageDicts)
+    jsonData = json.loads(jsonStr)
+    print("Available Host Images:")
+    for i, item in enumerate(jsonData):
+        imageTags = item["tags"]
+        print(f"{i + 1}. {', '.join(imageTags)}")
+
+    choice = input("Select an Image for use: ")
+    while not choice.isdigit() or int(choice) < 1 or int(choice) > len(jsonData):
+        choice = input(
+            "Invalid choice. Please enter the number of the image you want to use: "
+        )
+    selectedImage = jsonData[int(choice) - 1]
+    imageTags = selectedImage["tags"]
+    strippedHostImage = ", ".join([tag.strip("[").strip("]") for tag in imageTags])
 
 
 def update_mgmt_ip():
@@ -251,7 +305,7 @@ def update_mgmt_ip():
             "LEAF2IP": increment_ip(leafIp, 1),
             "LEAF3IP": increment_ip(leafIp, 2),
             "LEAF4IP": increment_ip(leafIp, 3),
-            "IMAGE": strippedImage,
+            "CEOSIMAGE": strippedCEOSImage,
         }
     elif labName == "Arista-DDC-LS-MLAG":
         ips = {
@@ -272,7 +326,41 @@ def update_mgmt_ip():
             "LEAF10IP": increment_ip(leafIp, 9),
             "LEAF11IP": increment_ip(leafIp, 10),
             "LEAF12IP": increment_ip(leafIp, 12),
-            "IMAGE": strippedImage,
+            "CEOSIMAGE": strippedCEOSImage,
+        }
+    elif labName == "Arista-SDC-LS-MLAG-HOSTS":
+        ips = {
+            "MGMTRANGE": managementRange,
+            "SPINE1IP": spineIp,
+            "SPINE2IP": increment_ip(spineIp, 1),
+            "LEAF1IP": leafIp,
+            "LEAF2IP": increment_ip(leafIp, 1),
+            "LEAF3IP": increment_ip(leafIp, 2),
+            "LEAF4IP": increment_ip(leafIp, 3),
+            "CEOSIMAGE": strippedCEOSImage,
+            "HOSTIMAGE": strippedHostImage,
+        }
+    elif labName == "Arista-DDC-LS-MLAG-HOSTS":
+        ips = {
+            "MGMTRANGE": managementRange,
+            "SPINE1IP": spineIp,
+            "SPINE2IP": increment_ip(spineIp, 1),
+            "SPINE3IP": increment_ip(spineIp, 2),
+            "SPINE4IP": increment_ip(spineIp, 3),
+            "LEAF1IP": leafIp,
+            "LEAF2IP": increment_ip(leafIp, 1),
+            "LEAF3IP": increment_ip(leafIp, 2),
+            "LEAF4IP": increment_ip(leafIp, 3),
+            "LEAF5IP": increment_ip(leafIp, 4),
+            "LEAF6IP": increment_ip(leafIp, 5),
+            "LEAF7IP": increment_ip(leafIp, 6),
+            "LEAF8IP": increment_ip(leafIp, 7),
+            "LEAF9IP": increment_ip(leafIp, 8),
+            "LEAF10IP": increment_ip(leafIp, 9),
+            "LEAF11IP": increment_ip(leafIp, 10),
+            "LEAF12IP": increment_ip(leafIp, 12),
+            "CEOSIMAGE": strippedCEOSImage,
+            "HOSTIMAGE": strippedHostImage,
         }
 
     with open(template_file, "r") as f:
@@ -364,7 +452,8 @@ def deploy_lab():
     elif cvpRequired == False:
         get_switch_info()
     get_IP_info()
-    select_image()
+    select_ceos_image()
+    select_host_image()
     update_mgmt_ip()
     generate_spine_config()
     generate_leaf_config()
@@ -439,11 +528,22 @@ def destroy_lab_info():
             labjsonData = json.load(f)
         for index, v in enumerate(labjsonData):
             print(f"{index + 1}. {v['lab_name']}")
-        labChoice = int(input("Select the Lab you wish to Destroy: "))
-        os.system("clear")
-        deleteChoice = labjsonData[labChoice - 1]["labPath"]
-        labName = labjsonData[labChoice - 1]["lab_name"]
-        configPath = "./configs/" + labName
+        while True:
+            try:
+                labChoice = int(input("Select the Lab you wish to Destroy: "))
+                if labChoice < 1 or labChoice > len(labjsonData):
+                    print(
+                        "Invalid choice. Please enter a number between 1 and",
+                        len(labjsonData),
+                    )
+                else:
+                    break
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+    os.system("clear")
+    deleteChoice = labjsonData[labChoice - 1]["labPath"]
+    labName = labjsonData[labChoice - 1]["lab_name"]
+    configPath = "./configs/" + labName
 
 
 def delete_lab_files():

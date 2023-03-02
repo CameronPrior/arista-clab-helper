@@ -1,4 +1,4 @@
-name: Arista-DDC-LS-MLAG
+name: Arista-DDC-LS-MLAG-HOSTS
 
 mgmt:
   network: mgmt_network
@@ -9,71 +9,77 @@ topology:
     ceos:
       type: ceos
       image: {CEOSIMAGE}
+    linux:
+      image: {HOSTIMAGE}
   nodes:
     ceos1:
       kind: ceos
       mgmt_ipv4: {SPINE1IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-1.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-spine-1.cfg
     ceos2:
       kind: ceos
       mgmt_ipv4: {SPINE2IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-2.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-spine-2.cfg
     ceos3:
       kind: ceos
       mgmt_ipv4: {SPINE3IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-3.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-spine-3.cfg
     ceos4:
       kind: ceos
       mgmt_ipv4: {SPINE4IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-4.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-spine-4.cfg
     ceos5:
       kind: ceos
       mgmt_ipv4: {LEAF1IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-1.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-1.cfg
     ceos6:
       kind: ceos
       mgmt_ipv4: {LEAF2IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-2.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-2.cfg
     ceos7:
       kind: ceos
       mgmt_ipv4: {LEAF3IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-3.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-3.cfg
     ceos8:
       kind: ceos
       mgmt_ipv4: {LEAF4IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-4.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-4.cfg
     ceos9:
       kind: ceos
       mgmt_ipv4: {LEAF5IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-5.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-5.cfg
     ceos10:
       kind: ceos
       mgmt_ipv4: {LEAF6IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-6.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-6.cfg
     ceos11:
       kind: ceos
       mgmt_ipv4: {LEAF7IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-7.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-7.cfg
     ceos12:
       kind: ceos
       mgmt_ipv4: {LEAF8IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-8.cfg   
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-8.cfg   
     ceos13:
       kind: ceos
       mgmt_ipv4: {LEAF9IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-9.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-9.cfg
     ceos14:
       kind: ceos
       mgmt_ipv4: {LEAF10IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-10.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-10.cfg
     ceos15:
       kind: ceos
       mgmt_ipv4: {LEAF11IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-11.cfg
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-11.cfg
     ceos16:
       kind: ceos
       mgmt_ipv4: {LEAF12IP}
-      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-12.cfg   
+      startup-config: ../configs/Arista-DDC-LS-MLAG-HOSTS/ceos-leaf-12.cfg
+    client1:
+      kind: linux
+    client2:
+      kind: linux
 
   links:
     - endpoints: ["ceos1:eth1","ceos5:eth1"]
@@ -93,9 +99,13 @@ topology:
     - endpoints: ["ceos4:eth3","ceos11:eth2"]
     - endpoints: ["ceos4:eth4","ceos12:eth2"]
     - endpoints: ["ceos5:eth3","ceos6:eth3"]
+    - endpoints: ["ceos5:eth4","client1:eth1"]
+    - endpoints: ["ceos6:eth4","client1:eth2"]
     - endpoints: ["ceos7:eth3","ceos8:eth3"]
     - endpoints: ["ceos9:eth3","ceos10:eth3"]
     - endpoints: ["ceos11:eth3","ceos12:eth3"]
+    - endpoints: ["ceos11:eth4","client2:eth1"]
+    - endpoints: ["ceos12:eth4","client2:eth2"]
     - endpoints: ["ceos13:eth3","ceos14:eth3"]
     - endpoints: ["ceos15:eth3","ceos16:eth3"]
     - endpoints: ["ceos7:eth4","ceos13:eth1"]

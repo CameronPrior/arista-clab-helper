@@ -1,4 +1,4 @@
-name: Arista-SDC-LS-MLAG
+name: Arista-SDC-LS-MLAG-HOSTS
 
 mgmt:
   network: mgmt_network
@@ -9,31 +9,38 @@ topology:
     ceos:
       type: ceos
       image: {CEOSIMAGE}
+    linux:
+      image: {HOSTIMAGE}
+
   nodes:
     ceos1:
       kind: ceos
       mgmt_ipv4: {SPINE1IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-spine-1.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-spine-1.cfg
     ceos2:
       kind: ceos
       mgmt_ipv4: {SPINE2IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-spine-2.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-spine-2.cfg
     ceos3:
       kind: ceos
       mgmt_ipv4: {LEAF1IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-leaf-1.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-leaf-1.cfg
     ceos4:
       kind: ceos
       mgmt_ipv4: {LEAF2IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-leaf-2.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-leaf-2.cfg
     ceos5:
       kind: ceos
       mgmt_ipv4: {LEAF3IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-leaf-3.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-leaf-3.cfg
     ceos6:
       kind: ceos
       mgmt_ipv4: {LEAF4IP}
-      startup-config: ../configs/Arista-SDC-LS-MLAG/ceos-leaf-4.cfg
+      startup-config: ../configs/Arista-SDC-LS-MLAG-HOSTS/ceos-leaf-4.cfg
+    client1:
+      kind: linux
+    client2:
+      kind: linux
 
   links:
     - endpoints: ["ceos1:eth1","ceos3:eth1"]
@@ -45,4 +52,8 @@ topology:
     - endpoints: ["ceos2:eth3","ceos5:eth2"]
     - endpoints: ["ceos2:eth4","ceos6:eth2"]
     - endpoints: ["ceos3:eth3","ceos4:eth3"]
+    - endpoints: ["ceos3:eth4","client1:eth1"]
+    - endpoints: ["ceos4:eth4","client1:eth2"]
     - endpoints: ["ceos5:eth3","ceos6:eth3"]
+    - endpoints: ["ceos5:eth4","client2:eth1"]
+    - endpoints: ["ceos6:eth4","client2:eth2"]
