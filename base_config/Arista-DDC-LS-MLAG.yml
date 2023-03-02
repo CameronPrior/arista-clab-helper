@@ -1,0 +1,130 @@
+name: Arista-DDC-LS-MLAG
+
+mgmt:
+  network: mgmt_network
+  ipv4_subnet: {MGMTRANGE}/24
+
+topology:
+  kinds:
+    ceos:
+      type: ceos
+      image: ceos:4.29.0.2F
+  nodes:
+    ceos1:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {SPINE1IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-1.cfg
+    ceos2:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {SPINE2IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-2.cfg
+    ceos3:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {SPINE3IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-3.cfg
+    ceos4:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {SPINE4IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-4.cfg
+    ceos5:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF1IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-1.cfg
+    ceos6:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF2IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-2.cfg
+    ceos7:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF3IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-3.cfg
+    ceos8:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF4IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-4.cfg
+    ceos9:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF5IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-5.cfg
+    ceos10:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF6IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-6.cfg
+    ceos11:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF7IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-7.cfg
+    ceos12:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF8IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-8.cfg   
+    ceos13:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF9IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-9.cfg
+    ceos14:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF10IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-10.cfg
+    ceos15:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF11IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-11.cfg
+    ceos16:
+      kind: ceos
+      image: ceos:4.29.0.2F
+      mgmt_ipv4: {LEAF12IP}
+      startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-12.cfg   
+
+  links:
+    - endpoints: ["ceos1:eth1","ceos5:eth1"]
+    - endpoints: ["ceos1:eth2","ceos6:eth1"]
+    - endpoints: ["ceos1:eth3","ceos7:eth1"]
+    - endpoints: ["ceos1:eth4","ceos8:eth1"]
+    - endpoints: ["ceos2:eth1","ceos5:eth2"]
+    - endpoints: ["ceos2:eth2","ceos6:eth2"]
+    - endpoints: ["ceos2:eth3","ceos7:eth2"]
+    - endpoints: ["ceos2:eth4","ceos8:eth2"]
+    - endpoints: ["ceos3:eth1","ceos9:eth1"]
+    - endpoints: ["ceos3:eth2","ceos10:eth1"]
+    - endpoints: ["ceos3:eth3","ceos11:eth1"]
+    - endpoints: ["ceos3:eth4","ceos12:eth1"]
+    - endpoints: ["ceos4:eth1","ceos9:eth2"]
+    - endpoints: ["ceos4:eth2","ceos10:eth2"]
+    - endpoints: ["ceos4:eth3","ceos11:eth2"]
+    - endpoints: ["ceos4:eth4","ceos12:eth2"]
+    - endpoints: ["ceos5:eth3","ceos6:eth3"]
+    - endpoints: ["ceos7:eth3","ceos8:eth3"]
+    - endpoints: ["ceos9:eth3","ceos10:eth3"]
+    - endpoints: ["ceos11:eth3","ceos12:eth3"]
+    - endpoints: ["ceos13:eth3","ceos14:eth3"]
+    - endpoints: ["ceos15:eth3","ceos16:eth3"]
+    - endpoints: ["ceos7:eth4","ceos13:eth1"]
+    - endpoints: ["ceos7:eth5","ceos14:eth1"]
+    - endpoints: ["ceos8:eth4","ceos13:eth2"]
+    - endpoints: ["ceos8:eth5","ceos14:eth2"]
+    - endpoints: ["ceos9:eth4","ceos15:eth1"]
+    - endpoints: ["ceos9:eth5","ceos16:eth1"]
+    - endpoints: ["ceos10:eth4","ceos15:eth2"]
+    - endpoints: ["ceos10:eth5","ceos16:eth2"]
+    - endpoints: ["ceos13:eth4","ceos15:eth4"]
+    - endpoints: ["ceos13:eth5","ceos16:eth5"]
+    - endpoints: ["ceos14:eth5","ceos15:eth5"]
+    - endpoints: ["ceos14:eth4","ceos16:eth4"]
+
+
