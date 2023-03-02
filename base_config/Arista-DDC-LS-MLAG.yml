@@ -8,86 +8,86 @@ topology:
   kinds:
     ceos:
       type: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
   nodes:
     ceos1:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {SPINE1IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-1.cfg
     ceos2:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {SPINE2IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-2.cfg
     ceos3:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {SPINE3IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-3.cfg
     ceos4:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {SPINE4IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-spine-4.cfg
     ceos5:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF1IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-1.cfg
     ceos6:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF2IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-2.cfg
     ceos7:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF3IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-3.cfg
     ceos8:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF4IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-4.cfg
     ceos9:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF5IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-5.cfg
     ceos10:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF6IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-6.cfg
     ceos11:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF7IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-7.cfg
     ceos12:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF8IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-8.cfg   
     ceos13:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF9IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-9.cfg
     ceos14:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF10IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-10.cfg
     ceos15:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF11IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-11.cfg
     ceos16:
       kind: ceos
-      image: ceos:4.29.0.2F
+      image: {IMAGE}
       mgmt_ipv4: {LEAF12IP}
       startup-config: ../configs/Arista-DDC-LS-MLAG/ceos-leaf-12.cfg   
 

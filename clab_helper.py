@@ -16,6 +16,7 @@ import requests.packages
 
 requests.packages.urllib3.disable_warnings()
 import uuid
+import docker
 
 
 def main_menu():
@@ -121,14 +122,14 @@ def cvp_create_container():
             containerName, newContainer["name"], newContainer["key"]
         )
     except Exception as e:
-        if "Data already exists in Database" in str(e):
+        if "jsonData already exists in jsonDatabase" in str(e):
             print("Container already exists, continuing...")
     parentContainer = cvpClient.api.get_container_by_name("Undefined")
-    mgmtIpListFile = labDir + "topology-data.json"
+    mgmtIpListFile = labDir + "topology-jsonData.json"
     ipList = []
     with open(mgmtIpListFile) as f:
-        data = json.load(f)
-    for name, node in data["nodes"].items():
+        jsonData = json.load(f)
+    for name, node in jsonData["nodes"].items():
         ipList.append(node["mgmt-ipv4-address"])
     cvpList = []
     for devIp in ipList:
@@ -212,6 +213,32 @@ def confirm_ip_info():
         confirm_ip_info()
 
 
+def select_image():
+    global strippedImage
+    os.system("clear")
+    dockerClient = docker.from_env()
+    dockerImages = dockerClient.images.list()
+    imageDicts = []
+    for image in dockerImages:
+        imageDict = {"tags": image.tags}
+        imageDicts.append(imageDict)
+    jsonStr = json.dumps(imageDicts)
+    jsonData = json.loads(jsonStr)
+    print("Available CEOS Images:")
+    for i, item in enumerate(jsonData):
+        imageTags = item["tags"]
+        print(f"{i + 1}. {', '.join(imageTags)}")
+
+    choice = input("Select an Image for use: ")
+    while not choice.isdigit() or int(choice) < 1 or int(choice) > len(jsonData):
+        choice = input(
+            "Invalid choice. Please enter the number of the image you want to use: "
+        )
+    selectedImage = jsonData[int(choice) - 1]
+    imageTags = selectedImage["tags"]
+    strippedImage = ", ".join([tag.strip("[").strip("]") for tag in imageTags])
+
+
 def update_mgmt_ip():
     template_file = Path("./base_config") / (labName + ".yml")
     output_file = Path("./inventory") / (labName + ".yml")
@@ -224,6 +251,7 @@ def update_mgmt_ip():
             "LEAF2IP": increment_ip(leafIp, 1),
             "LEAF3IP": increment_ip(leafIp, 2),
             "LEAF4IP": increment_ip(leafIp, 3),
+            "IMAGE": strippedImage,
         }
     elif labName == "Arista-DDC-LS-MLAG":
         ips = {
@@ -244,6 +272,7 @@ def update_mgmt_ip():
             "LEAF10IP": increment_ip(leafIp, 9),
             "LEAF11IP": increment_ip(leafIp, 10),
             "LEAF12IP": increment_ip(leafIp, 12),
+            "IMAGE": strippedImage,
         }
 
     with open(template_file, "r") as f:
@@ -335,6 +364,7 @@ def deploy_lab():
     elif cvpRequired == False:
         get_switch_info()
     get_IP_info()
+    select_image()
     update_mgmt_ip()
     generate_spine_config()
     generate_leaf_config()
@@ -406,13 +436,13 @@ def destroy_lab_info():
     else:
         print("The following labs are running")
         with open(labInfoFile) as f:
-            labData = json.load(f)
-        for index, v in enumerate(labData):
+            labjsonData = json.load(f)
+        for index, v in enumerate(labjsonData):
             print(f"{index + 1}. {v['lab_name']}")
         labChoice = int(input("Select the Lab you wish to Destroy: "))
         os.system("clear")
-        deleteChoice = labData[labChoice - 1]["labPath"]
-        labName = labData[labChoice - 1]["lab_name"]
+        deleteChoice = labjsonData[labChoice - 1]["labPath"]
+        labName = labjsonData[labChoice - 1]["lab_name"]
         configPath = "./configs/" + labName
 
 
