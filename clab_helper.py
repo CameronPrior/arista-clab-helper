@@ -28,7 +28,7 @@ def main_menu():
 
 
 def deployment_type_menu():
-    global noSpines, noLeafs, configDir, labDir, labName, deploy_command
+    global noSpines, noLeafs, configDir, labDir, labName, deploy_command, hostReq
     os.system("clear")
     if not os.path.exists("./inventory"):
         os.makedirs("./inventory")
@@ -47,6 +47,7 @@ def deployment_type_menu():
         labDir = "./clab-Arista-SDC-LS-MLAG/"
         deploy_command = "clab deploy -t ./inventory/Arista-SDC-LS-MLAG.yml"
         labName = "Arista-SDC-LS-MLAG"
+        hostReq = False
         deploy_lab()
     elif choice == "2":
         noSpines = 4
@@ -57,6 +58,7 @@ def deployment_type_menu():
         labDir = "./clab-Arista-DDC-LS-MLAG/"
         deploy_command = "clab deploy -t ./inventory/Arista-DDC-LS-MLAG.yml"
         labName = "Arista-DDC-LS-MLAG"
+        hostReq = False
         deploy_lab()
     elif choice == "3":
         noSpines = 2
@@ -67,6 +69,7 @@ def deployment_type_menu():
         labDir = "./clab-Arista-SDC-LS-MLAG-HOSTS/"
         deploy_command = "clab deploy -t ./inventory/Arista-SDC-LS-MLAG-HOSTS.yml"
         labName = "Arista-SDC-LS-MLAG-HOSTS"
+        hostReq = True
         deploy_lab()
     elif choice == "4":
         noSpines = 4
@@ -77,6 +80,7 @@ def deployment_type_menu():
         labDir = "./clab-Arista-DDC-LS-MLAG-HOSTS/"
         deploy_command = "clab deploy -t ./inventory/Arista-DDC-LS-MLAG-HOSTS.yml"
         labName = "Arista-DDC-LS-MLAG-HOSTS"
+        hostReq = True
         deploy_lab()
     else:
         print("Invalid choice. Try again.")
@@ -443,7 +447,7 @@ def deploy_lab():
         get_switch_info()
     get_IP_info()
     select_ceos_image()
-    if labName == "clab-Arista-SDC-LS-MLAG-HOSTS" or "clab-Arista-DDC-LS-MLAG-HOSTS":
+    if hostReq == True:
         select_host_image()
     update_mgmt_ip()
     generate_spine_config()
