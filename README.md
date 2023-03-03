@@ -16,7 +16,7 @@ Features include:
 Obviously ContainerLab is required in order for this to work, if you haven't already done this you should head over to the ContainerLab site and follow [this](https://containerlab.dev/install/) guide.
 
 You will also need a cEOS image which can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
-Once downloaded you will need to import that image into ContainerLab, to do this you need to use the `docker import *ceos_filename* *image_name*` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
+Once downloaded you will need to import that image into ContainerLab, to do this you need to use the `docker import {CEOS FILENAME} {IMAGE NAME}` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
 This command imports the container image that you downloaded and saves it into the docker image repository using the *image_name* you have given it.
 You need to follow the correct image naming standard of ceos:#.##.##.
 
@@ -43,6 +43,10 @@ ContainerLab requires elevated privileges so you will need to run the script wit
 Assuming everything has gone well you will be presented with a menu giving you the option to Deploy, Destroy, Inspect or Quit.
 From here everything is pretty self explanatory.
 
+The script will ask you what type of lab you would like to deploy, then it will gather various information for said lab.
+If you select to deploy a lab with Hosts attached, it will ask what image you would like to use for the hosts.
+If this image does not exist, it will use docker to download the image.
+
 
 # Topologies
 The following topologies are included:
@@ -63,7 +67,7 @@ The following topologies are included:
 # CloudVision Setup
 In order to use CVP with ContainerLab, the CVP host needs a static route configured back to the management range.
 When configuring CVP, I used the same interface for both the Cluster Interface and the Device Interface.
-After CVP is up and running, add a static route using the `ip route add *MANAGEMENT RANGE* via *DOCKER HOST IP* dev eth0` command.
+After CVP is up and running, add a static route using the `ip route add {MANAGEMENT RANGE} via {DOCKER HOST IP} dev eth0` command.
 
 ### CloudVision Setup Diagram
 ![CVP Config](https://user-images.githubusercontent.com/680877/222660607-a5fa8d7a-d500-43aa-9400-3a24ed21c60d.png)
