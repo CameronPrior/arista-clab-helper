@@ -65,7 +65,7 @@ The following topologies are included:
 
 
 # CloudVision Setup
-In order to use CVP with ContainerLab, the CVP host needs a static route configured back to the management range.
+In order to use CVP with ContainerLab, the CVP host needs a static route configured back to the management range you have configured.
 When configuring CVP, I used the same interface for both the Cluster Interface and the Device Interface.
 After CVP is up and running, add a static route using the `ip route add {MANAGEMENT RANGE} via {DOCKER HOST IP} dev eth0` command.
 
