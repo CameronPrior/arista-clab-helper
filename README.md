@@ -7,11 +7,10 @@ The code you will find in this repository is most likely offensive to developers
 # Exec Summary
 This 'code' is designed to help you deploy, destroy and inspect topologies in ContainerLab.
 Features include:
-- Deploy 2 different Arista based topologies
-- Automatic provisioning into CloudVision if required
+- Deploy 2 different Arista based topologies (with or without attached Hosts)
+- Automatic provisioning into CloudVision (CVP) if required
 - Destroy any running lab and perform either a full clean-up or leave the files intact for next time
 - Inspect all running labs
-- Generating 
 
 # Requirements
 Obviously ContainerLab is required in order for this to work, if you haven't already done this you should head over to the ContainerLab site and follow [this](https://containerlab.dev/install/) guide.
@@ -61,3 +60,7 @@ The following topologies are included:
 ![DDC-MLAG-HOSTS](https://user-images.githubusercontent.com/680877/222652533-d089356c-ed29-49d0-a8d8-740d444ade47.png)
 
 
+# CloudVision Setup
+In order to use CVP with ContainerLab, the CVP host needs a static route configured back to the management range.
+When configuring CVP, I used the same interface for both the Cluster Interface and the Device Interface.
+After CVP is up and running, add a static route using the `ip route add *MANAGEMENT RANGE* via *DOCKER HOST IP* dev eth0` command.

@@ -268,29 +268,19 @@ def select_host_image():
     global strippedHostImage
     os.system("clear")
     dockerClient = docker.from_env()
-    dockerImages = dockerClient.images.list()
-    imageDicts = []
-    for image in dockerImages:
-        for tag in image.tags:
-            if not tag.startswith("ceos"):
-                imageDict = {"tags": [tag]}
-                imageDicts.append(imageDict)
-                break
-    jsonStr = json.dumps(imageDicts)
-    jsonData = json.loads(jsonStr)
-    print("Available Host Images:")
-    for i, item in enumerate(jsonData):
-        imageTags = item["tags"]
-        print(f"{i + 1}. {', '.join(imageTags)}")
-
-    choice = input("Select an Image for use: ")
-    while not choice.isdigit() or int(choice) < 1 or int(choice) > len(jsonData):
-        choice = input(
-            "Invalid choice. Please enter the number of the image you want to use: "
-        )
-    selectedImage = jsonData[int(choice) - 1]
-    imageTags = selectedImage["tags"]
-    strippedHostImage = ", ".join([tag.strip("[").strip("]") for tag in imageTags])
+    availableImages = ["ubuntu", "centos", "alpine"]
+    print("Available images: ")
+    for index, image in enumerate(availableImages):
+        print(f"{index + 1}. {image}")
+    imageIndex = int(input("Enter the index of the image you want to use: "))
+    selectedImage = availableImages[imageIndex - 1]
+    try:
+        dockerClient.images.get(selectedImage)
+    except docker.errors.ImageNotFound:
+        os.system("clear")
+        print(f"{selectedImage} doesn't exist, downloading...")
+        dockerClient.images.pull(selectedImage)
+    strippedHostImage = selectedImage + ":latest"
 
 
 def update_mgmt_ip():
@@ -453,7 +443,8 @@ def deploy_lab():
         get_switch_info()
     get_IP_info()
     select_ceos_image()
-    select_host_image()
+    if labName == "clab-Arista-SDC-LS-MLAG-HOSTS" or "clab-Arista-DDC-LS-MLAG-HOSTS":
+        select_host_image()
     update_mgmt_ip()
     generate_spine_config()
     generate_leaf_config()
