@@ -51,10 +51,13 @@ The following topologies are included:
 ### Single Data Center with MLAG
 ![SDC-MLAG](https://user-images.githubusercontent.com/680877/222593712-17c56723-d3e8-4902-a2a1-673cda7629b0.png)
 
-
 ### Single Data Center with MLAG and Attached Hosts
 ![SDC-MLAG-HOSTS](https://user-images.githubusercontent.com/680877/222593900-6bdf43f1-1579-436a-b966-a2e9227a379e.png)
 
+### Dual Data Center with MLAG
+![DDC-MLAG](https://user-images.githubusercontent.com/680877/222652486-0c9a11cf-65d3-409b-b79d-709262638057.png)
 
+### Dual Data Center with MLAG and Attached Hosts
+![DDC-MLAG-HOSTS](https://user-images.githubusercontent.com/680877/222652533-d089356c-ed29-49d0-a8d8-740d444ade47.png)
 
 
