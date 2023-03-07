@@ -6,7 +6,7 @@ import time
 import requests
 import json
 from datetime import datetime
-from cvprac.cvp_client import CvpClient
+from cvprac.cvp_client import CvpClient, CvpLoginError
 import ssl
 import ipaddress
 from pathlib import Path
@@ -16,6 +16,28 @@ import docker
 
 ssl._create_default_https_context = ssl._create_unverified_context
 requests.packages.urllib3.disable_warnings()
+
+
+def docker_check():
+    try:
+        output = (
+            subprocess.check_output(["docker", "--version"]).decode("utf-8").strip()
+        )
+        dockerInstalled = True
+        return dockerInstalled
+    except subprocess.CalledProcessError:
+        dockerInstalled = False
+        return dockerInstalled
+
+
+def clab_check():
+    try:
+        output = subprocess.check_output(["clab", "version", "|", "grep", "version"])
+        clabInstalled = True
+        return clabInstalled
+    except subprocess.CalledProcessError:
+        clabInstalled = False
+        return clabInstalled
 
 
 class Lab:
@@ -64,6 +86,7 @@ class Info:
         self.selectedDelete = ""
         self.deleteFiles = False
         self.decommDevice = False
+        self.cvpConnected = False
 
 
 ### DEPLOY LAB FUNCTIONS ###
@@ -154,11 +177,23 @@ def cvp_provision_required(info):
 def get_cvp_info(info):
     os.system("clear")
     info.cvpIp = input("CVP IP Address: ")
+    validIp = validate_ip_address(info.cvpIp)
+    if not validIp:
+        os.system("clear")
+        print("Invalid IP Address")
+        input("Press any key to try again...")
+        get_cvp_info(info)
     info.cvpIpList = [info.cvpIp]
     info.cvpServer = "https://" + info.cvpIp + "/cvpservice"
     info.cvpUsername = input("CVP Username: ")
     info.cvpPassword = getpass.getpass("CVP Password: ")
     info.headers = {"accept": "application/json", "Content-Type": "application/json"}
+    cvp_connect_check(info)
+    if info.cvpConnected == False:
+        os.system("clear")
+        print("Could not connected to CVP Instance")
+        input("Press any key to try again...")
+        get_cvp_info(info)
 
 
 def get_switch_info(info):
@@ -445,6 +480,15 @@ def deploy_lab(lab, info):
 ### CVP SPECIFIC FUNCTIONS ###
 
 
+def cvp_connect_check(info):
+    cvpClient = CvpClient()
+    try:
+        cvpClient.connect(info.cvpIpList, info.cvpUsername, info.cvpPassword)
+        info.cvpConnected = True
+    except CvpLoginError as e:
+        info.cvpConnected = False
+
+
 def cvp_create_container(lab, info):
     cvpClient = CvpClient()
     cvpClient.connect(info.cvpIpList, info.cvpUsername, info.cvpPassword, 120, 120)
@@ -696,6 +740,18 @@ def main():
     os.system("clear")
     if os.getuid() == 0:
         info = Info()
+        dockerInstalled = docker_check()
+        if dockerInstalled == False:
+            print(
+                "Docker is not currently installed, please install Docker first before running this script"
+            )
+            terminate_script()
+        clabInstalled = clab_check()
+        if clabInstalled == False:
+            print(
+                "ContainerLab is not currently installed, please install ContainerLab first before running this script"
+            )
+            terminate_script()
         main_menu()
         choice = input("Enter your choice: ")
         if choice == "1":
