@@ -63,6 +63,8 @@ The following topologies are included:
 ### Dual Data Center with MLAG and Attached Hosts
 ![DDC-MLAG-HOSTS](https://user-images.githubusercontent.com/680877/222652533-d089356c-ed29-49d0-a8d8-740d444ade47.png)
 
+**Please Note:** You will around 32Gb of RAM to run the Dual DC Topologies as each container uses around 1.6Gb
+
 
 # CloudVision Setup
 In order to use CVP with ContainerLab, the CVP host needs a static route configured back to the management range you have configured.
