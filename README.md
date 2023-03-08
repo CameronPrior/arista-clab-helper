@@ -13,7 +13,8 @@ Features include:
 - Inspect all running labs
 
 # Requirements
-Obviously ContainerLab is required in order for this to work, if you haven't already done this you should head over to the ContainerLab site and follow [this](https://containerlab.dev/install/) guide.
+Docker needs to be installed first of all. Docker installation guides can be found [here](https://docs.docker.com/engine/install/)
+ContainerLab is next, if you haven't already done this you should head over to the ContainerLab site and follow [this](https://containerlab.dev/install/) guide.
 
 You will also need a cEOS image which can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
 Once downloaded you will need to import that image into ContainerLab, to do this you need to use the `docker import {CEOS FILENAME} {IMAGE NAME}` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
