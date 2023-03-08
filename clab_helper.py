@@ -1054,7 +1054,6 @@ def check_status():
 
 
 def terminate_script():
-    os.system("clear")
     sys.exit()
 
 
