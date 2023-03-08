@@ -374,6 +374,17 @@ def select_ceos_image(info):
                 imageDict = {"tags": [tag]}
                 imageDicts.append(imageDict)
                 break
+    if imageDicts == []:
+        print("----------------------------------------")
+        print("Missing cEOS Image")
+        print("----------------------------------------")
+        print("")
+        print("No CEOS Images found loaded into docker")
+        print(
+            "Please download a supported cEOS image and import it using the 'docker import' command"
+        )
+        input("Press any key to exit...")
+        terminate_script()
 
     # Convert the list of image dictionaries to a JSON string and then back to a list of dictionaries
     jsonStr = json.dumps(imageDicts)
