@@ -13,36 +13,43 @@ Features include:
 - Inspect all running labs
 
 # Requirements
-Docker needs to be installed first of all. Docker installation guides can be found [here](https://docs.docker.com/engine/install/)
-ContainerLab is next, if you haven't already done this you should head over to the ContainerLab site and follow [this](https://containerlab.dev/install/) guide.
+In order for clab-helper to work, it requires the following:
+ - [Docker](https://docker.com)
+ - [ContainerLab](https://containerlab.dev/)
+ - [Python 3.10.0+](https://www.python.org/)
+ - [Python-pip](https://pypi.org/project/pip/)
+ - A supported cEOS image (cEOS-4.28.0F and above)
+ 
 
-You will also need a cEOS image which can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
-Once downloaded you will need to import that image into ContainerLab, to do this you need to use the `docker import {CEOS FILENAME} {IMAGE NAME}` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
+Docker installation guides can be found [here](https://docs.docker.com/engine/install/)
+
+ContainerLab installation guides can be found [here](https://containerlab.dev/install/)
+
+Python installation guides can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)
+
+Python-pip installation guide can be found [here](https://pip.pypa.io/en/stable/installation/)
+**Note:** I reccommend using the `get-pip.py` script to install pip
+
+cEOS images can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
+
+# cEOS Install Instructions
+Once a supported cEOS images has been downloaded use the `docker import {CEOS FILENAME} {IMAGE NAME}` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
 This command imports the container image that you downloaded and saves it into the docker image repository using the *image_name* you have given it.
-You need to follow the correct image naming standard of ceos:#.##.##.
+You need to follow the correct image naming standard of ceos:#.##.##(.#)
 
-**Please Note:** Its best to avoid CEOS images prior to *CEOS-4.28.0F* as they might not boot depending on the runtime environment. More info on this limitation can be found [here](https://containerlab.dev/manual/kinds/ceos/#known-issues-or-limitations)
+# clab_helper Install Instructions
+Once everything has been installed, clone the repository using `git clone https://github.com/CameronPrior/arista-clab-helper.git` into a directory of your choosing.
+After the repo has been cloned, navigate into the directory and run `sudo pip install -r requirements.txt` to install the python modules required. 
 
-Next up would be a functioning version of Python (This was written in version 3.10.6 but I'm fairly certain it will run on most version 3+). 
-You should also be installing [python-pip](https://pypi.org/project/pip/) as you will be using that to install the external modules required.
-
+## Python Modules Used
 I have utilised three external python modules in this script:
 - [cvPrac](https://github.com/aristanetworks/cvprac) - Which is a RESTful API client for Cloudvision® Portal (CVP) which can be used for building applications that work with Arista CVP
 - [requests](https://pypi.org/project/requests/) - The python HTTP library
 - [docker](https://pypi.org/project/docker/) - A python library for the Docker Engine API
 
-
-Once you have installed ContainerLab, Python and Python-pip. You can go ahead and either clone the repository or download the zip and extract it into a folder of your choosing.
-I've created a clab-helper folder within the containerlab directory which is found in your user directory.
-
-You will then want to run `sudo pip install -r requirements.txt` which will install the three external modules listed above.
-
-# Usage
+# clab_helper Usage
 ContainerLab requires elevated privileges so you will need to run the script with sudo.
 `sudo Python3 clab-helper.py` should get you started.
-
-Assuming everything has gone well you will be presented with a menu giving you the option to Deploy, Destroy, Inspect or Quit.
-From here everything is pretty self explanatory.
 
 The script will ask you what type of lab you would like to deploy, then it will gather various information for said lab.
 If you select to deploy a lab with Hosts attached, it will ask what image you would like to use for the hosts.
