@@ -1,3 +1,3 @@
 cvprac
-docker_py
+docker
 requests
