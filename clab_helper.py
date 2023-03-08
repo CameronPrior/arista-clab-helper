@@ -155,11 +155,13 @@ def deployment_type_menu():
     info = Info()
 
     # Display the list of labs and ask the user to choose one
-    print("What type of lab are you deploying?")
+    print("----------------------------------------")
+    print("Deployment Options")
+    print("----------------------------------------")
     for i, lab in enumerate(labs):
         print(f"{i+1}. {lab.labType}")
-
-    choice = input("Enter your choice: ")
+    print("")
+    choice = input("Which topology would you like to deploy: ")
 
     try:
         # Convert the user's choice to an integer and select the corresponding lab
@@ -1105,11 +1107,11 @@ def main_menu():
     print("----------------------------------------")
     print("ContainerLab Helper")
     print("----------------------------------------")
-    print("")
     print("1. Deploy Lab")
     print("2. Destroy Lab")
     print("3. Check Running Lab Status")
     print("4. Quit")
+    print("")
 
 
 def main():
