@@ -28,7 +28,7 @@ def docker_check():
         dockerInstalled = True
         return dockerInstalled
     # If the command raises a `CalledProcessError`, set `dockerInstalled` to `False` and return it
-    except subprocess.CalledProcessError:
+    except (OSError, subprocess.CalledProcessError):
         dockerInstalled = False
         return dockerInstalled
 
@@ -41,7 +41,7 @@ def clab_check():
         clabInstalled = True
         return clabInstalled
     # If the command raises a `CalledProcessError`, set `clabInstalled` to `False` and return it
-    except subprocess.CalledProcessError:
+    except (OSError, subprocess.CalledProcessError):
         clabInstalled = False
         return clabInstalled
 
