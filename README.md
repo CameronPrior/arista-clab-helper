@@ -21,16 +21,11 @@ In order for clab-helper to work, it requires the following:
  - A supported cEOS image (cEOS-4.28.0F and above)
  
 
-Docker installation guides can be found [here](https://docs.docker.com/engine/install/)
-
-ContainerLab installation guides can be found [here](https://containerlab.dev/install/)
-
-Python installation guides can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)
-
-Python-pip installation guide can be found [here](https://pip.pypa.io/en/stable/installation/)
-**Note:** I reccommend using the `get-pip.py` script to install pip
-
-cEOS images can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
+**Docker** installation guides can be found [here](https://docs.docker.com/engine/install/)<br />
+**ContainerLab** installation guides can be found [here](https://containerlab.dev/install/)<br />
+**Python** installation guides can be found [here](https://wiki.python.org/moin/BeginnersGuide/Download)<br />
+**Python-pip** installation guide can be found [here](https://pip.pypa.io/en/stable/installation/) (I recommend using the `get-pip.py` script to install pip)<br />
+**cEOS images** can be downloaded from the [Arista website.](https://www.arista.com/en/support/software-download)
 
 # cEOS Install Instructions
 Once a supported cEOS images has been downloaded use the `docker import {CEOS FILENAME} {IMAGE NAME}` command, e.g. `docker import cEOS-lab-4.29.0F.tar ceos:4.29.0F`.
